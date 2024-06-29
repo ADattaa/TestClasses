@@ -1,13 +1,13 @@
 @isTest
 private class UsePermissionInTestClass {
-   /* @testsetup
+   @testsetup
     public static void insertAccountTestData(){
             Account a = new Account();
             a.Name = 'Test';
             a.Phone = '1233567890';
             a.Rating = 'cold';
             insert a;
-    }*/
+    }
 	@istest
     public static void accountRecordsInsert(){
 		system.debug('@@@@@ '+ [SELECT Id FROM Account].size());
@@ -24,25 +24,21 @@ private class UsePermissionInTestClass {
         );
         insert u;
         permissionset ps = [Select Id from Permissionset where Name = 'Standard_User_Test_Class_Permission_set'];
-        /*PermissionSetAssignment psa =  new PermissionSetAssignment();
+        PermissionSetAssignment psa =  new PermissionSetAssignment();
             psa.AssigneeId = u.id;
             psa.PermissionSetId = ps.Id;
-        insert psa;*/
+        insert psa;
         system.runAs(u){
             Test.startTest();
-            /*Account[] pos = [SELECT Id FROM Account];
+            Account[] pos = [SELECT Id FROM Account];
             pos[0].Name = 'test account';
-            update pos;*/
-            Account a = new Account();
-            a.Name = 'test ccount name';
-            a.Phone = '1234567989';
-            a.Rating = 'Cold';
+            update pos;'Cold';
             insert a;
             Test.stopTest();
             // THEN
             Assert.areEqual(
-                'test ccount name',
-                 a.Name,
+                1,
+                pos.size(),
                 'A user without the permission set shouldn\'t see any records');
         }
         
